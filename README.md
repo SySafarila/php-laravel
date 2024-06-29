@@ -1,13 +1,13 @@
 ## Notes
-- This image is forked from php:8.1-fpm-alpine with some updates to support your Laravel projects that using MySQL Database.
+- This image is forked from [PHP FPM Official Docker Image](https://hub.docker.com/_/php) with some updates to support your Laravel projects that using MySQL Database.
 - You should use this image with `nginx` web server, please check [SySafarila/dockerized-laravel](https://github.com/SySafarila/dockerized-laravel) on GitHub for the example.
+- You can find repository of this image on GitHub [SySafarila/laravel-php](https://github.com/SySafarila/laravel-php).
 
-## Changelogs
-- v0.0.1
-  - Add `pdo_mysql`, `gd` and `zip` extensions.
-  - Add latest version of `Composer` for PHP dependency manager
+## Tags , Laravel Version and PHP FPM Version
+- v0.0.1 - Laravel 10 - Using PHP 8.1
+- v0.1.0 - Laravel 11 - Using PHP 8.3
 
-## Pre-Installed extensions
+## Pre-Installed Extensions
 - Core
 - ctype
 - curl
@@ -16,6 +16,7 @@
 - fileinfo
 - filter
 - ftp
+- gd
 - hash
 - iconv
 - json
@@ -41,4 +42,5 @@
 - xml
 - xmlreader
 - xmlwriter
+- zip
 - zlib
