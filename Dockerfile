@@ -10,15 +10,24 @@ RUN apk add unzip
 RUN apk add libpng-dev
 RUN apk add libzip-dev
 
+# install package for freetype
+RUN apk add freetype-dev
+RUN apk add libjpeg-turbo-dev
+RUN apk add libpng-dev
+
+# install package for postgres
+RUN apk add libpq-dev
+
 # install php extension pdo_mysql
 RUN docker-php-ext-install pdo_mysql
 
-# install php extensions gd and zip
+# configure & install php extensions gd
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install gd
+
+# install php extensions zip
 RUN docker-php-ext-install zip
 
-# install and configure php extension postgres (pdo_pgsql, pgsql)
-RUN apk add libpq-dev
-# RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
+# install php extension postgres (pdo_pgsql, pgsql)
 RUN docker-php-ext-install pdo_pgsql
 RUN docker-php-ext-install pgsql
