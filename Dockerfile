@@ -1,33 +1,25 @@
-# FROM php:8.1-fpm-alpine
-FROM php:8.3-fpm-alpine
+FROM php:8.3-fpm-alpine AS builder
 
-# install latest composer version
+# install composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-RUN apk update 
-RUN apk add zip
-RUN apk add unzip
-RUN apk add libpng-dev
-RUN apk add libzip-dev
+# set workdir
+WORKDIR /app
 
-# install package for freetype
-RUN apk add freetype-dev
-RUN apk add libjpeg-turbo-dev
-RUN apk add libpng-dev
+# install laravel
+RUN composer create-project laravel/laravel="11.*.*" .
 
-# install package for postgres
-RUN apk add libpq-dev
+FROM php:8.3-fpm-alpine
 
-# install php extension pdo_mysql
-RUN docker-php-ext-install pdo_mysql
+RUN apk add --no-cache \
+    zip unzip libpng-dev libzip-dev freetype-dev libjpeg-turbo-dev libpq-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo_mysql zip pdo_pgsql pgsql \
+    && rm -rf /var/cache/apk/*
 
-# configure & install php extensions gd
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-install gd
+COPY --from=builder /app /laravel
 
-# install php extensions zip
-RUN docker-php-ext-install zip
+WORKDIR /laravel
 
-# install php extension postgres (pdo_pgsql, pgsql)
-RUN docker-php-ext-install pdo_pgsql
-RUN docker-php-ext-install pgsql
+# set volume
+VOLUME [ "/laravel" ]
