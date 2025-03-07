@@ -7,7 +7,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 WORKDIR /app
 
 # install laravel
-RUN composer create-project laravel/laravel="11.*.*" .
+RUN composer create-project laravel/laravel="10.*.*" .
 
 FROM php:8.3-fpm-alpine
 
